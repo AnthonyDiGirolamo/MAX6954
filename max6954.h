@@ -10,6 +10,7 @@ class MAX6954 {
 
     uint8_t data_in, data_out, clock, chip1, chip2;
 
+    void begin(uint8_t start_spi);
     void read(byte address, uint8_t cs);
     void write(byte address, byte value);
     void write_chip1(byte address, byte value);
