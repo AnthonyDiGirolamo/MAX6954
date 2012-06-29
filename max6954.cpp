@@ -2,6 +2,78 @@
 #include "max6954.h"
 #include <SPI.h>
 
+prog_uint8_t character_map[][2] = {
+  { B00000000, B00000000 }, // space
+  { B00000000, B00000000 }, // ! 32
+  { B00000000, B00000000 }, // "
+  { B00000000, B00000000 }, // #
+  { B00000000, B00000000 }, // $
+  { B00000000, B00000000 }, // %
+  { B00000000, B00000000 }, // &
+  { B00000000, B00000000 }, // '
+  { B00000000, B00000000 }, // (
+  { B00000000, B00000000 }, // )
+  { B00000000, B00000000 }, // *
+  { B00000000, B00000000 }, // +
+  { B00000000, B00000000 }, // ,
+  { B00000000, B00000000 }, // -
+  { B00000000, B00000000 }, // .
+  { B00000000, B00000000 }, // /
+  { B00000000, B00000000 }, // 0
+  { B00000000, B00000000 }, // 1
+  { B00000000, B00000000 }, // 2
+  { B00000000, B00000000 }, // 3
+  { B00000000, B00000000 }, // 4
+  { B00000000, B00000000 }, // 5
+  { B00000000, B00000000 }, // 6
+  { B00000000, B00000000 }, // 7
+  { B00000000, B00000000 }, // 8
+  { B00000000, B00000000 }, // 9
+  { B00000000, B00000000 }, // :
+  { B00000000, B00000000 }, // ;
+  { B00000000, B00000000 }, // <
+  { B00000000, B00000000 }, // =
+  { B00000000, B00000000 }, // >
+  { B00000000, B00000000 }, // ?
+  { B00000000, B00000000 }, // @
+  { B10001101, B00000010 }, // A
+  { B10000111, B00000010 }, // B
+  { B10000101, B00000000 }, // C
+  { B10000101, B00010010 }, // D
+  { B10000101, B00000001 }, // E
+  { B01000111, B00000000 }, // F
+  { B11000011, B00010010 }, // G
+  { B00000111, B00000010 }, // H
+  { B00000100, B00000000 }, // I
+  { B10000000, B00000010 }, // J
+  { B00000000, B01010110 }, // K
+  { B00001000, B00010010 }, // L
+  { B00010101, B01000010 }, // M
+  { B00000101, B00000010 }, // N
+  { B10000101, B00000010 }, // O
+  { B01000111, B00010000 }, // P
+  { B01001011, B00010010 }, // Q
+  { B00000101, B00000000 }, // R
+  { B00001000, B01000100 }, // S
+  { B00001001, B01010010 }, // T
+  { B10000100, B00000010 }, // U
+  { B00000100, B00000001 }, // V
+  { B10011100, B00000010 }, // W
+  { B00000000, B00101101 }, // X
+  { B10000011, B00010010 }, // Y
+  { B10000001, B00000001 }, // Z
+  { B00000000, B00000000 }, // [
+  { B00000000, B00000000 }, // backslash
+  { B00000000, B00000000 }, // ]
+  { B00000000, B00000000 }, // ^
+  { B00000000, B00000000 }, // _
+  { B00000000, B00000000 } // ` 96
+// { 123
+// |
+// }
+// ~
+};
+
 MAX6954::MAX6954(uint8_t out, uint8_t in, uint8_t clk, uint8_t c1, uint8_t c2) {
   data_out = out;
   data_in  = in;
@@ -32,11 +104,12 @@ void MAX6954::begin() {
 
   // Decode mode enabled
   write(0x01, B11111111);
-  enable_individual_segment_brightness();
   // Scan Limit - all digits
   write(0x03, B00000111);
-  // Configuration - fast blinking and normal operation
-  write(0x04, B01000101);
+  // Configuration - fast blinking and normal operation, invidual digit brightness
+  //write(0x04, B01000101);
+  // Configuration - fast blinking and normal operation, global brightness
+  write(0x04, B00000101);
   // Digit Type - all 16 segments
   write(0x0C, B00000000);
 }
@@ -146,6 +219,29 @@ void MAX6954::write_int1(int value){
   }
 }
 
+void MAX6954::write_lowercase(char c, int row=0, int col=0) {
+  int offset = 32;
+  if (c >= 'a')
+    offset = 64;
+  if (row==0) {
+    write_chip1(0x20+col, character_map[c-offset][0]);
+    write_chip1(0x28+col, character_map[c-offset][1]);
+  }
+  else {
+    write_chip2(0x20+col, character_map[c-offset][0]);
+    write_chip2(0x28+col, character_map[c-offset][1]);
+  }
+}
+
+void MAX6954::write_lowercase_string(char* string, int row=0, int col=0) {
+  uint16_t i;
+  char buffer[16];
+  strcpy_P(buffer, string);
+  for (i=0; i<strlen(buffer); i++) {
+    write_lowercase(buffer[i], i/8, i%8);
+  }
+}
+
 void MAX6954::enable_individual_segment_brightness() {
   // Global Intensity to zero - individual segment control
   write(0x02, B00000000);
@@ -154,6 +250,13 @@ void MAX6954::enable_individual_segment_brightness() {
 void MAX6954::enable_global_segment_brightness() {
   // Global Intensity to one
   write(0x02, B00000001);
+}
+
+void MAX6954::set_global_brightness(int i) {
+  if (i>15) i=15;
+  if (i<0) i=0;
+  // Global Intensity to one
+  write_chip1(0x02, i);
 }
 
 /*

@@ -3,6 +3,16 @@
 
 #include "Arduino.h"
 
+#define POUND      24
+#define YEN        25
+#define AE         26
+#define DEG        27
+#define HALFM      28
+#define CROSS      29
+#define ROCKETUP   30
+#define ROCKETDOWN 31
+#define DEL        127
+
 class MAX6954 {
   public:
 
@@ -23,6 +33,9 @@ class MAX6954 {
     void write_int1(int value);
     void enable_individual_segment_brightness();
     void enable_global_segment_brightness();
+    void set_global_brightness(int i);
+    void write_lowercase(char c, int row, int col);
+    void write_lowercase_string(char* string, int row, int col);
 };
 
 #endif
