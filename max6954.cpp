@@ -20,17 +20,15 @@ MAX6954::MAX6954(uint8_t out, uint8_t in, uint8_t clk, uint8_t c1, uint8_t c2) {
   digitalWrite(chip2, HIGH); // disable device
 }
 
-void MAX6954::begin(uint8_t start_spi = 1) {
-  if (start_spi) {
-    SPI.begin();
-    // SPI.setBitOrder(MSBFIRST);
-    // SPI.setDataMode(SPI_MODE0);
+void MAX6954::begin() {
+  SPI.begin();
+  SPI.setBitOrder(MSBFIRST);
+  SPI.setDataMode(SPI_MODE0);
 
-    // SPI Speed = 1MHz
-    // SPI.setClockDivider(SPI_CLOCK_DIV8);  // 8MHz Arduino
-    SPI.setClockDivider(SPI_CLOCK_DIV16); // 16MHz Arduino
-    // SPI_CLOCK_DIV possibilities 2,4,8,16,32,64,128
-  }
+  // SPI Speed = 1MHz
+  // SPI.setClockDivider(SPI_CLOCK_DIV8);  // 8MHz Arduino
+  SPI.setClockDivider(SPI_CLOCK_DIV16); // 16MHz Arduino
+  // SPI_CLOCK_DIV possibilities 2,4,8,16,32,64,128
 
   // Decode mode enabled
   write(0x01, B11111111);
