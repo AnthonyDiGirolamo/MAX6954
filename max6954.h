@@ -16,6 +16,7 @@ class MAX6954 {
     void write_chip1(byte address, byte value);
     void write_chip2(byte address, byte value);
     void control_intensity(int d0, int d1, int d2, int d3, int d4, int d5, int d6, int d7);
+    void write_string(char str[]);
     void write_string(char str[], int row, int col);
     void write_string1(char str[]);
     void write_string2(char str[]);
