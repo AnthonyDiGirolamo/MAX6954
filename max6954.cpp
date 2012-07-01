@@ -161,7 +161,7 @@ void MAX6954::control_intensity(int d0, int d1, int d2, int d3, int d4, int d5, 
   write(0x13, d7 << 4 | d6);
 }
 
-void MAX6954::write_string(char str[], int row = 0, int col = 0){
+void MAX6954::write_string(char str[], int row, int col){
   int i=0;
   for (int digit = 0x20+col; digit <= 0x27; digit++) {
 		if (str[i] == '\0')
@@ -256,7 +256,7 @@ void MAX6954::set_global_brightness(int i) {
   if (i>15) i=15;
   if (i<0) i=0;
   // Global Intensity to one
-  write_chip1(0x02, i);
+  write(0x02, i);
 }
 
 /*
