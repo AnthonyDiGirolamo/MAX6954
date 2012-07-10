@@ -166,22 +166,23 @@ void MAX6954::write_string(char str[], int row, int col){
   for (int digit = 0x20+col; digit <= 0x27; digit++) {
 		if (str[i] == '\0')
 			return;
+    // If the next character is a period
     if (str[i+1] == '.') {
       if (row==0)
         write_chip1(digit, str[i] | B10000000);
-			else if (row==2)
-        write(digit, str[i] | B10000000);
-      else
+      else if (row==1)
         write_chip2(digit, str[i] | B10000000);
-      i+=2;
+			else
+        write(digit, str[i] | B10000000);
+      i+=2; // skip the decimal
     }
     else {
       if (row==0)
         write_chip1(digit, str[i]);
-			else if (row==2)
-        write_chip1(digit, str[i]);
-      else
+      else if (row==1)
         write_chip2(digit, str[i]);
+      else
+        write(digit, str[i]);
       i++;
     }
   }
