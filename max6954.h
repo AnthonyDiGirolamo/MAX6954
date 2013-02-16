@@ -34,7 +34,11 @@ class MAX6954 {
     void enable_global_segment_brightness();
     void set_global_brightness(int i);
     void write_lowercase(char c, int row, int col);
-    void write_lowercase_string(char* string, int row, int col);
+    void write_lowercase_string(char string[], int row, int col);
+    void disable_decode_mode();
+    void enable_decode_mode();
+    void turn_off_individual_segments();
+    void individual_segment_test();
 };
 
 #endif

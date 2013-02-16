@@ -2,7 +2,7 @@
 #include "max6954.h"
 #include <SPI.h>
 
-prog_uint8_t character_map[][2] = {
+prog_uint8_t lowercase_character_map[][2] = {
   { B00000000, B00000000 }, // space
   { B00000000, B00000000 }, // ! 32
   { B00000000, B00000000 }, // "
@@ -225,21 +225,19 @@ void MAX6954::write_lowercase(char c, int row=0, int col=0) {
   if (c >= 'a')
     offset = 64;
   if (row==0) {
-    write_chip1(0x20+col, character_map[c-offset][0]);
-    write_chip1(0x28+col, character_map[c-offset][1]);
+    write_chip1(0x20+col, lowercase_character_map[c-offset][0]);
+    write_chip1(0x28+col, lowercase_character_map[c-offset][1]);
   }
   else {
-    write_chip2(0x20+col, character_map[c-offset][0]);
-    write_chip2(0x28+col, character_map[c-offset][1]);
+    write_chip2(0x20+col, lowercase_character_map[c-offset][0]);
+    write_chip2(0x28+col, lowercase_character_map[c-offset][1]);
   }
 }
 
-void MAX6954::write_lowercase_string(char* string, int row=0, int col=0) {
+void MAX6954::write_lowercase_string(char string[], int row=0, int col=0) {
   uint16_t i;
-  char buffer[16];
-  strcpy_P(buffer, string);
-  for (i=0; i<strlen(buffer); i++) {
-    write_lowercase(buffer[i], i/8, i%8);
+  for (i=0; i<strlen(string); i++) {
+    write_lowercase(string[i], row+i/8, col+i%8);
   }
 }
 
@@ -253,6 +251,21 @@ void MAX6954::enable_global_segment_brightness() {
   write(0x02, B00000001);
 }
 
+void MAX6954::disable_decode_mode() {
+  write(0x01, B00000000); // Disable Decode Mode
+}
+
+void MAX6954::turn_off_individual_segments() {
+  // Turn off all segments manually
+  for (int i=0x20; i<=0x2F; i++) {
+    write(i, B00000000);
+  }
+}
+
+void MAX6954::enable_decode_mode() {
+  write(0x01, B11111111); // Decode mode enabled
+}
+
 void MAX6954::set_global_brightness(int i) {
   if (i>15) i=15;
   if (i<0) i=0;
@@ -260,8 +273,7 @@ void MAX6954::set_global_brightness(int i) {
   write(0x02, i);
 }
 
-/*
-void individual_segment_test() {
+void MAX6954::individual_segment_test() {
   // Decode mode disabled
   write(0x01, B00000000);
 
@@ -320,6 +332,5 @@ void individual_segment_test() {
   // Decode mode enabled
   write(0x01, B11111111);
 }
-*/
 
 
