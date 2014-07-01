@@ -25,4 +25,5 @@ To connect the MAX6954 to your 16 segment digits refer to Table 2. Connection Sc
 Code
 ----
 
-To get started see the example provided in the library.
+To get started see the
+[example](https://github.com/AnthonyDiGirolamo/MAX6954/blob/master/examples/chip_test/chip_test.ino) provided in the library.
