@@ -164,15 +164,15 @@ void MAX6954::control_intensity(int d0, int d1, int d2, int d3, int d4, int d5, 
 void MAX6954::write_string(char str[], int row, int col){
   int i=0;
   for (int digit = 0x20+col; digit <= 0x27; digit++) {
-		if (str[i] == '\0')
-			return;
+    if (str[i] == '\0')
+      return;
     // If the next character is a period
     if (str[i+1] == '.') {
       if (row==0)
         write_chip1(digit, str[i] | B10000000);
       else if (row==1)
         write_chip2(digit, str[i] | B10000000);
-			else
+      else
         write(digit, str[i] | B10000000);
       i+=2; // skip the decimal
     }
@@ -244,11 +244,15 @@ void MAX6954::write_lowercase_string(char string[], int row=0, int col=0) {
 void MAX6954::enable_individual_segment_brightness() {
   // Global Intensity to zero - individual segment control
   write(0x02, B00000000);
+  // Set Configuration - fast blinking and normal operation, individual brightness
+  write(0x04, B01000101);
 }
 
 void MAX6954::enable_global_segment_brightness() {
   // Global Intensity to one
   write(0x02, B00000001);
+  // Set Configuration - fast blinking and normal operation, global brightness
+  write(0x04, B00000101);
 }
 
 void MAX6954::disable_decode_mode() {
