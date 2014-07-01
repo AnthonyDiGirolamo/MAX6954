@@ -57,3 +57,8 @@ control.
 
 Code: [larson.ino](https://github.com/AnthonyDiGirolamo/MAX6954/blob/master/examples/larson/larson.ino)
 
+### Individual Segment Control
+
+This example shows how to address individual segments on each digit. It's a bit more advanced than the previous examples. It requires writing values to registers directly to the max6954. See the comments in the code for more info.
+
+Code: [segment_control.ino](https://github.com/AnthonyDiGirolamo/MAX6954/blob/master/examples/segment_control/segment_control.ino)
