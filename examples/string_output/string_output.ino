@@ -40,7 +40,6 @@ void setup() {
   alpha_board.set_global_brightness(4); // Set brightness level (0-15)
   // alpha_board.set_digit_type_all_16segment(); // Use 16-segment digits (the default)
   // alpha_board.set_digit_type_all_14segment(); // Use 14-segment digits
-MAX6954::
 }
 
 void loop() {
