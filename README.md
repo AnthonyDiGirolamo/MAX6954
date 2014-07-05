@@ -29,11 +29,29 @@ reference page on SPI). For the Uno or Duemilanove the pins are:
 * Chip 1 Select (SS) or CS - Pin 9
 * Chip 2 Select (SS) or CS - Pin 8
 
-The [MAX6954 Data Sheet](http://datasheets.maximintegrated.com/en/ds/MAX6954.pdf)
+The
+[MAX6954 Data Sheet](http://datasheets.maximintegrated.com/en/ds/MAX6954.pdf)
 says that the chips can be chained (see Figure 2. MAX6954 Daisy-Chain
-Connection) but I was getting data corruption with my setup. The corruption completely went away when I controlled each chip individually.
+Connection) but I was getting data corruption with my setup. The corruption
+completely went away when I controlled each chip individually.
 
-To connect the MAX6954 to your 16 segment digits refer to Table 2. Connection Scheme for Eight 16-Segment Digits and Figure 1. Segment Labeling for 7-Segment Display, 14-Segment Display, and 16-Segment Display in the [data sheet](http://datasheets.maximintegrated.com/en/ds/MAX6954.pdf). I used [these digits](http://shop.evilmadscientist.com/productsmenu/partsmenu/232).
+To connect the MAX6954 to your 16 segment digits refer to Table 2. Connection
+Scheme for Eight 16-Segment Digits and Figure 1. Segment Labeling for 7-Segment
+Display, 14-Segment Display, and 16-Segment Display in the
+[data sheet](http://datasheets.maximintegrated.com/en/ds/MAX6954.pdf). I used
+[these digits](http://shop.evilmadscientist.com/productsmenu/partsmenu/232).
+
+You can also use 14 segment displays for font output. 14 segment digits haven't
+been tested with the lowercase font or individual segment control. See setup
+section of the
+[string_output.ino](https://github.com/AnthonyDiGirolamo/MAX6954/blob/master/examples/string_output/string_output.ino)
+file for how to activate 14 segment digits.
+
+See also:
+
+- [Quick-Start: Driving 14-Segment Displays with the MAX6954](http://www.maximintegrated.com/en/app-notes/index.mvp/id/3211)
+
+- [Quick-Start: Driving 16-Segment Displays with the MAX6954](http://www.maximintegrated.com/en/app-notes/index.mvp/id/3212)
 
 Code
 ----
