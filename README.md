@@ -3,7 +3,7 @@ MAX6954 LED Driver Library
 
 This library was written to control one or two MAX6954 chips with an Arduino. It
 was originally written for use in this project:
-[Lights Out Arcade Box](http://anthonydigirolamo.github.io/blog/2013/02/13/lights-out-box/).
+[Lights Out Arcade Box](https://github.com/AnthonyDiGirolamo/lightsout).
 
 Installation
 ------------
