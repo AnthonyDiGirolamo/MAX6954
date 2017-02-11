@@ -2,7 +2,7 @@
 #include "max6954.h"
 #include <SPI.h>
 
-prog_uint8_t lowercase_character_map[][2] = {
+uint8_t lowercase_character_map[][2] = {
   { B00000000, B00000000 }, // space
   { B00000000, B00000000 }, // ! 32
   { B00000000, B00000000 }, // "

@@ -12,13 +12,13 @@ MAX6954 alpha_board = MAX6954(DATAOUT, DATAIN, CLK, CS1, CS2);
 
 // Some strings to print, stored in program memory (saves RAM)
 
-char string_empty[]    PROGMEM = "                ";
-char string_lights[]   PROGMEM = "Lights  ";
-char string_out[]      PROGMEM = "Out     ";
+const char string_empty[]  PROGMEM = "                ";
+const char string_lights[] PROGMEM = "Lights  ";
+const char string_out[]    PROGMEM = "Out     ";
 
 // Helper function to print PROGMEM strings
 
-void max_print_progmem(char* string, uint8_t row = -1, uint8_t col = -1, bool lowercase = 0) {
+void max_print_progmem(const char* string, uint8_t row = -1, uint8_t col = -1, bool lowercase = 0) {
   char buffer[32];
   strcpy_P(buffer, string);
   if (lowercase) {
